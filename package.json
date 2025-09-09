@@ -1,0 +1,16 @@
+{
+  "name": "trans_track_sys",
+  "version": "1.0.0",
+  "description": "Hệ thống theo dõi vận chuyển sử dụng PHP và TailwindCSS",
+  "main": "index.js",
+  "scripts": {
+  "build-css": "tailwindcss -i ./css/input.css -o ./public/css/output.css",
+  "watch-css": "tailwindcss -i ./css/input.css -o ./public/css/output.css --watch"
+},
+  "keywords": ["php", "tailwindcss", "web"],
+  "author": "Your Name",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.10"
+  }
+}
