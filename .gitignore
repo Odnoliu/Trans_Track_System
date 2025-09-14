@@ -17,3 +17,9 @@ Thumbs.db
 
 # Tailwind
 public/css/input.css  # Không đẩy file nguồn, chỉ output.css
+
+# Config
+config/
+
+#SQL
+sql/
