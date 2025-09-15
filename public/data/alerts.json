@@ -4,8 +4,8 @@
     "title": "Kẹt xe trên đường 30/4",
     "description": "Giao thông ùn tắc do sự cố tai nạn nhẹ",
     "type": "traffic",
-    "lat": 10.045162,
-    "lng": 105.746857,
+    "lat": 10.024658,
+    "lng": 105.774084,
     "time": "2025-09-14 09:30:00"
   },
   {
@@ -13,17 +13,17 @@
     "title": "Mưa lớn quận Ninh Kiều",
     "description": "Mưa kéo dài gây ngập cục bộ nhiều tuyến đường",
     "type": "flood",
-    "lat": 10.029933,
-    "lng": 105.770447,
+    "lat": 10.036125,
+    "lng": 105.775724,
     "time": "2025-09-14 10:00:00"
   },
   {
     "id": 3,
-    "title": "Sửa chữa cầu Cần Thơ",
-    "description": "Giới hạn tốc độ và làn đường trong thời gian bảo trì",
-    "type": "construction",
-    "lat": 10.032541,
-    "lng": 105.779998,
+    "title": "Triều cuờng cao tại Cần Thơ",
+    "description": "Triều cường đạt đỉnh, nhiều khu vực trên đường CMT8 bị ngập",
+    "type": "flood",
+    "lat": 10.047998,
+    "lng": 105.777529,
     "time": "2025-09-14 11:15:00"
   }
 ]

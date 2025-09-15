@@ -18,11 +18,11 @@ $points = [
     ['id' => 'locker-5', 'type' => 'locker', 'name' => 'Smart Locker 5', 'coords' => [105.7855, 10.0205], 'icon' => '../../images/smart_locker_point/locker.png'],
     // Warehouses
     ['id' => 'warehouse-1', 'type' => 'warehouse', 'name' => 'Kho 1', 'coords' => [105.780000, 10.030000], 'icon' => '../../images/default_point/warehouse.png'],
-    ['id' => 'warehouse-2', 'type' => 'warehouse', 'name' => 'Kho 2', 'coords' => [105.800000, 10.045000], 'icon' => '../../images/default_point/warehouse.png'],
+    ['id' => 'warehouse-2', 'type' => 'warehouse', 'name' => 'Kho 2', 'coords' => [105.756031, 10.034307], 'icon' => '../../images/default_point/warehouse.png'],
 ];
 
 // Mặc định shipper ở kho 1
-$default_shipper = $points[5]['coords']; // warehouse-1
+$default_shipper = [105.780142,10.029895]; // warehouse-1
 
 $order_id = (int)($_GET['order_id'] ?? 1);
 $destination = $orders[$order_id] ?? $orders[1];
@@ -89,7 +89,13 @@ $destination = $orders[$order_id] ?? $orders[1];
         .setPopup(new mapboxgl.Popup().setHTML(`<b>${pt.name}</b>`))
         .addTo(map);
     });
-
+    const destinationel = document.createElement("div");
+    destinationel.className = "marker-svg";
+    destinationel.style.backgroundImage = "url('../../images/destination.png')";
+    new mapboxgl.Marker(destinationel)
+      .setLngLat(<?php echo json_encode($destination); ?>)
+      .setPopup(new mapboxgl.Popup().setHTML("<b>Điểm đến của đơn hàng #<?php echo $order_id; ?></b>"))
+      .addTo(map);
     // Marker shipper (ở Kho 1)
     const shipperEl = document.createElement("div");
     shipperEl.className = "marker-shipper";
@@ -98,7 +104,7 @@ $destination = $orders[$order_id] ?? $orders[1];
       .setLngLat(<?php echo json_encode($default_shipper); ?>)
       .setPopup(new mapboxgl.Popup().setHTML("<b>Shipper xuất phát từ Kho 1</b>"))
       .addTo(map);
-
+    console.log(<?php echo json_encode($default_shipper); ?>);
     // Vẽ tuyến đường shipper -> order
     const start = <?php echo json_encode($default_shipper); ?>;
     const end = <?php echo json_encode($destination); ?>;
@@ -129,7 +135,7 @@ $destination = $orders[$order_id] ?? $orders[1];
       });
 
       // Check route với alerts
-      fetch("/Trans_Track_System_Final/data/alerts.json")
+      await fetch("../../data/alerts.json")
         .then(res => res.json())
         .then(alerts => {
           alerts.forEach(alert => {
