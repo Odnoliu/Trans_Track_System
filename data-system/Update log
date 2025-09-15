@@ -1,3 +1,10 @@
 15-09-2025 13:31
 CDM: Thêm cột toạ độ vào bảng địa chỉ (do bị thiếu trong cdm trước)
 SQL: Hoàn thành đổ dữ liệu cho database
+
+15-09-2025 22:43
+SQL: (PPhuc)
+    - Bỏ các phần comment
+    - Chỉnh sửa thống nhất mã phường là PH_ID
+    - Loại bỏ "AUTO_INCREMENT" của cột PH_ID (khóa ngoại) trong bảng diachi
+    - Thêm "DC_ToaDo" vào dòng insert diachi

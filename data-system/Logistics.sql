@@ -39,21 +39,21 @@ CREATE TABLE taikhoan (
 )ENGINE=InnoDB;
 
 INSERT INTO taikhoan (TK_TenDangNhap, TK_MatKhau, VT_Ma) VALUES
-('admin', 'admin123', 'VT001'),     --1
-('nvgh1', 'nvgh123', 'VT002'),      --2
-('nvgh2', 'nvgh123', 'VT002'),      --3
-('nvgh3', 'nvgh123', 'VT002'),      --4
-('khachhang1', 'kh123', 'VT003'),   --5
-('khachhang2', 'kh123', 'VT003'),   --6
-('khachhang3', 'kh123', 'VT003'),   --7
-('khachhang4', 'kh123', 'VT003'),   --8
-('khachhang5', 'kh123', 'VT003'),   --9
-('khachhang6', 'kh123', 'VT003'),   --10
-('khachhang7', 'kh123', 'VT003'),   --11
-('khachhang8', 'kh123', 'VT003'),   --12
-('nhacungcap1', 'ncc123', 'VT004'), --13
-('nhacungcap2', 'ncc123', 'VT004'), --14
-('nhacungcap3', 'ncc123', 'VT004'); --15
+('admin', 'admin123', 'VT001'),     
+('nvgh1', 'nvgh123', 'VT002'),      
+('nvgh2', 'nvgh123', 'VT002'),      
+('nvgh3', 'nvgh123', 'VT002'),      
+('khachhang1', 'kh123', 'VT003'),   
+('khachhang2', 'kh123', 'VT003'),   
+('khachhang3', 'kh123', 'VT003'),   
+('khachhang4', 'kh123', 'VT003'),   
+('khachhang5', 'kh123', 'VT003'),   
+('khachhang6', 'kh123', 'VT003'),   
+('khachhang7', 'kh123', 'VT003'),   
+('khachhang8', 'kh123', 'VT003'),   
+('nhacungcap1', 'ncc123', 'VT004'), 
+('nhacungcap2', 'ncc123', 'VT004'), 
+('nhacungcap3', 'ncc123', 'VT004'); 
 
 CREATE TABLE khachhang (
     KH_ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -80,33 +80,33 @@ CREATE TABLE phuong (
 )ENGINE=InnoDB;
 
 INSERT INTO phuong (PH_Ten) VALUES
-('An Bình'),        --1
-('An Khánh'),       --2
-('Bình Thuỷ'),      --3
-('Cái Khế'),        --4
-('Cái Răng'),       --5
-('Hưng Phú'),       --6
-('Long Tuyền'),     --7
-('Ninh Kiều'),      --8
-('Phú Thứ'),        --9
-('Thốt Nốt'),       --10
-('Thới An Đông'),   --11
-('Thới Lai'),       --12
-('Tân An'),         --13
-('Trà Nóc'),        --14
-('Ô Môn');          --15
+('An Bình'),        
+('An Khánh'),       
+('Bình Thuỷ'),     
+('Cái Khế'),        
+('Cái Răng'),       
+('Hưng Phú'),      
+('Long Tuyền'),  
+('Ninh Kiều'),      
+('Phú Thứ'),        
+('Thốt Nốt'),       
+('Thới An Đông'),   
+('Thới Lai'),       
+('Tân An'),         
+('Trà Nóc'),        
+('Ô Môn');          
 
 CREATE TABLE diachi (
     DC_ID INT AUTO_INCREMENT PRIMARY KEY,
     DC_SoNha VARCHAR(200) NOT NULL,
     DC_ToaDo VARCHAR(100) NOT NULL,
-    PH_ID INT AUTO_INCREMENT NOT NULL,
+    PH_ID INT NOT NULL,
     KH_ID INT NOT NULL,
-    FOREIGN KEY (PH_Ma) REFERENCES phuong(PH_Ma),
+    FOREIGN KEY (PH_ID) REFERENCES phuong(PH_ID),
     FOREIGN KEY (KH_ID) REFERENCES khachhang(KH_ID)
 )ENGINE=InnoDB;
 
-INSERT INTO diachi (DC_SoNha, PH_ID, KH_ID) VALUES
+INSERT INTO diachi (DC_SoNha, DC_ToaDo, PH_ID, KH_ID) VALUES
 ('98 đường 3 Tháng 2', '10.0169, 105.7607', 13, 1),
 ('55 đường Nguyễn Văn Linh', '10.0250, 105.7602', 13, 2),
 ('509 đường 30 Tháng 4', '10.0129, 105.7609', 13, 3),
