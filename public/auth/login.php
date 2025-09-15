@@ -9,6 +9,7 @@
 </head>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
     <h1 class="text-3xl font-bold mb-6 text-blue-500">LogiX</h1>
+    <img src="../images/favicon.png" alt="" class="w-16 h-16 max-w-full max-h-full">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <form>
             <div class="mb-4">
