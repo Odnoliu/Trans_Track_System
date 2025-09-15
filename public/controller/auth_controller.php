@@ -21,32 +21,33 @@ class AuthController {
                 $stmt = $this->pdo->prepare("
                     SELECT TK_ID, TK_MatKhau, VT_Ma 
                     FROM taikhoan 
-                    WHERE TK_ID = ?
+                    WHERE TK_TenDangNhap = ?
                 ");
                 $stmt->execute([$username]);
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if ($user && password_verify($password, $user['TK_MatKhau'])) {
+                echo "Mat khau: " . $user['TK_MatKhau'];     
+                echo "Pw verify" . password_verify($password, $user['TK_MatKhau']);
+                if ($user && ($password == $user['TK_MatKhau'])) {
                     // Lưu session
-                    $_SESSION['username'] = $user['TK_ID'];
+                    $_SESSION['username'] = $user['TK_TenDangNhap'];
                     $_SESSION['role'] = $user['VT_Ma'];
 
                     // Điều hướng dựa trên role
                     switch ($user['VT_Ma']) {
-                        case 'ADMIN':
-                            header("Location: /admin/admin");
+                        case 'VT001':
+                            header("Location: /admin/admin.php");
                             exit;
-                        case 'CUSTOMER':
-                            header("Location: /customer/customer");
+                        case 'VT003':
+                            header("Location: /customer/customer.php");
                             exit;
-                        case 'PROVIDER':
-                            header("Location: /provider/provider");
+                        case 'VT004':
+                            header("Location: /provider/provider.php");
                             exit;   
-                        case 'EMPLOYEE':
-                            header("Location: /employee/employee");
+                        case 'VT002':
+                            header("Location: /employee/employee.php");
                             exit;     
                         default:
-                            header("Location: /default/page");
+                            header("Location: /auth/login.php");
                             exit;
                     }
                 } else {
