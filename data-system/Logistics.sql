@@ -141,7 +141,7 @@ INSERT INTO phuongtien (PT_Ma, PT_Ten) VALUES
 ('PT002', 'Xe Tải');
 
 CREATE TABLE nhanviengiaohang (
-    NVGH_Ma INT AUTO_INCREMENT PRIMARY KEY,
+    NVGH_Ma CHAR(5) PRIMARY KEY,
     NVGH_Ten VARCHAR(50) NOT NULL,
     NVGH_SDT VARCHAR(12) NOT NULL UNIQUE,
     NVGH_GioiTinh INT NOT NULL CHECK (NVGH_GioiTinh IN (0,1)),
@@ -153,6 +153,11 @@ CREATE TABLE nhanviengiaohang (
     FOREIGN KEY (PT_Ma) REFERENCES phuongtien(PT_Ma),
     FOREIGN KEY (TK_ID) REFERENCES taikhoan(TK_ID)
 )ENGINE=InnoDB;
+
+INSERT INTO nhanviengiaohang (NVGH_Ma, NVGH_Ten, NVGH_SDT, NVGH_GioiTinh, NVGH_NgaySinh, NVGH_CCCD, NVGH_AnhChanDung, PT_Ma, TK_ID) VALUES
+('NV001', 'Lê Văn I', '0933123111', 1, '1990-05-15', '123456789012', 'nvgh1.jpg', 'PT001', 2),
+('NV002', 'Phạm Thị J', '0933123112', 0, '1992-08-20', '123456789013', 'nvgh2.jpg', 'PT002', 3),
+('NV003', 'Trần Văn K', '0933123113', 1, '1988-12-10', '123456789014', 'nvgh3.jpg', 'PT001', 4);
 
 CREATE TABLE kho (
     K_Ma CHAR(5) PRIMARY KEY,
@@ -189,7 +194,7 @@ CREATE TABLE donhang (
     DH_ToaDoDen VARCHAR(100) NOT NULL,
     DH_GhiChu VARCHAR(200) DEFAULT NULL,
     KH_ID INT NOT NULL,
-    NVGH_Ma INT DEFAULT NULL,
+    NVGH_Ma CHAR(5) DEFAULT NULL,
     NCC_ID INT NOT NULL,
     TT_Ma CHAR(5) NOT NULL,
     K_Ma CHAR(5) NOT NULL,
@@ -199,6 +204,28 @@ CREATE TABLE donhang (
     FOREIGN KEY (TT_Ma) REFERENCES trangthai(TT_Ma),
     FOREIGN KEY (K_Ma) REFERENCES kho(K_Ma)
 )ENGINE=InnoDB;
+
+INSERT INTO donhang (DH_Ma, DH_MaQR, DH_SoLuongKIH, DH_TongTien, DH_ToaDoDi, DH_ToaDoDen, DH_GhiChu, KH_ID, NVGH_Ma, NCC_ID, TT_Ma, K_Ma) VALUES
+('DH0000001', 'QR001.jpg', 1, 150000.0, '10.0433, 105.7782', '10.0169, 105.7607', 'Giao hàng trong giờ hành chính', 1, 'NV001', 1, 'TT002', 'K0001'),
+('DH0000002', 'QR002.jpg', 1, 80000.0, '10.0415, 105.7395', '10.0250, 105.7602', NULL, 2, 'NV002', 2, 'TT002', 'K0002'),
+('DH0000003', 'QR003.jpg', 1, 200000.0, '9.9813, 105.7444', '10.0129, 105.7609', 'Giao hàng nhanh', 3, NULL, 3, 'TT001', 'K0003'),
+('DH0000004', 'QR004.jpg', 1, 120000.0, '10.0297, 105.7793', '10.0436, 105.7825', NULL, 4, 'NV003', 1, 'TT002', 'K0001'),
+('DH0000005', 'QR005.jpg', 1, 90000.0, '10.0433, 105.7782', '10.0378, 105.7594', 'Giao hàng trước 5 PM', 5, NULL, 2, 'TT001', 'K0002'),
+('DH0000006', 'QR006.jpg', 1, 110000.0, '10.0415, 105.7395', '9.9992, 105.7524', NULL, 6, 'NV001', 3, 'TT002', 'K0003'),
+('DH0000007', 'QR007.jpg', 1, 130000.0, '9.9813, 105.7444', '10.0169, 105.7607', 'Giao hàng gấp', 7, 'NV002', 1, 'TT002', 'K0001'),
+('DH0000008', 'QR008.jpg', 1, 70000.0, '10.0433, 105.7782', '10.0250, 105.7602', NULL, 8, NULL, 2, 'TT001', 'K0002'),
+('DH0000009', 'QR009.jpg', 1, 160000.0, '10.0415, 105.7395', '10.0129, 105.7609', 'Giao hàng trong ngày', 1, 'NV003', 3, 'TT002', 'K0003'),
+('DH0000010', 'QR010.jpg', 1, 140000.0, '10.0297, 105.7793', '10.0436, 105.7825', NULL, 2, NULL, 1, 'TT001', 'K0001'),
+('DH0000011', 'QR011.jpg', 1, 95000.0, '10.0433, 105.7782', '10.0378, 105.7594', 'Giao hàng trước 6 PM', 3, 'NV001', 2, 'TT002', 'K0002'),
+('DH0000012', 'QR012.jpg', 1, 115000.0, '10.0415, 105.7395', '9.9992, 105.7524', NULL, 4, 'NV002', 3, 'TT003', 'K0003'),
+('DH0000013', 'QR013.jpg', 1, 125000.0, '9.9813, 105.7444', '10.0169, 105.7607', 'Giao hàng nhanh', 5, NULL, 1, 'TT001', 'K0001'),
+('DH0000014', 'QR014.jpg', 1, 85000.0, '10.0433, 105.7782', '10.0250, 105.7602', NULL, 6, 'NV003', 2, 'TT002', 'K0002'),
+('DH0000015', 'QR015.jpg', 1, 175000.0, '10.0415, 105.7395', '10.0129, 105.7609', 'Giao hàng trong ngày', 7, NULL, 3, 'TT001', 'K0003'),
+('DH0000016', 'QR016.jpg', 1, 145000.0, '10.0297, 105.7793', '10.0436, 105.7825', NULL, 8, 'NV001', 1, 'TT002', 'K0001'),
+('DH0000017', 'QR017.jpg', 1, 105000.0, '10.0433, 105.7782', '10.0378, 105.7594', 'Giao hàng trước 5 PM', 1, NULL, 2, 'TT001', 'K0002'),
+('DH0000018', 'QR018.jpg', 1, 115000.0, '10.0415, 105.7395', '9.9992, 105.7524', NULL, 2, 'NV002', 3, 'TT002', 'K0003'),
+('DH0000019', 'QR019.jpg', 1, 135000.0, '9.9813, 105.7444', '10.0169, 105.7607', 'Giao hàng gấp', 3, 'NV003', 1, 'TT003', 'K0001'),
+('DH0000020', 'QR020.jpg', 1, 75000.0, '10.0433, 105.7782', '10.0250, 105.7602', NULL, 4, NULL, 2, 'TT001', 'K0002');
 
 CREATE TABLE kienhang (
     KIH_ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -214,3 +241,25 @@ CREATE TABLE kienhang (
     DH_Ma CHAR(10) NOT NULL,
     FOREIGN KEY (DH_Ma) REFERENCES donhang(DH_Ma)
 )ENGINE=InnoDB;
+
+INSERT INTO kienhang (KIH_TrongLuong, KIH_ChieuDai, KIH_ChieuRong, KIH_ChieuCao, KIH_DeVo, KIH_CoGiaTri, KIH_GiaTien, KIH_Anh, KIH_MoTa, DH_Ma) VALUES
+(2.5, 30.0, 20.0, 15.0, 1, 1, 150000.0, 'kih1.jpg', 'Đồ điện tử', 'DH0000001'),
+(1.0, 25.0, 15.0, 10.0, 0, 0, 80000.0, 'kih2.jpg', 'Quần áo', 'DH0000002'),
+(5.0, 50.0, 40.0, 30.0, 1, 1, 200000.0, 'kih3.jpg', 'Đồ gia dụng', 'DH0000003'),
+(3.0, 35.0, 25.0, 20.0, 0, 1, 120000.0, 'kih4.jpg', 'Sách vở', 'DH0000004'),
+(1.5, 28.0, 18.0, 12.0, 1, 0, 90000.0, 'kih5.jpg', 'Giày dép', 'DH0000005'),
+(2.0, 32.0, 22.0, 16.0, 0, 1, 110000.0, 'kih6.jpg', 'Đồ chơi trẻ em', 'DH0000006'),
+(4.0, 45.0, 35.0, 25.0, 1, 1, 130000.0, 'kih7.jpg', 'Đồ thể thao', 'DH0000007'),
+(1.2, 26.0, 16.0, 11.0, 0, 0, 70000.0, 'kih8.jpg', 'Phụ kiện thời trang', 'DH0000008'),
+(3.5, 38.0, 28.0, 22.0, 1, 1, 160000.0, 'kih9.jpg', 'Đồ nội thất nhỏ', 'DH0000009'),
+(2.8, 34.0, 24.0, 18.0, 0, 1, 140000.0, 'kih10.jpg', 'Đồ dùng học tập', 'DH0000010'),
+(1.7, 29.0, 19.0, 13.0, 1, 0, 95000.0, 'kih11.jpg', 'Mỹ phẩm', 'DH0000011'),
+(2.3, 31.0, 21.0, 15.0, 0, 1, 115000.0, 'kih12.jpg', 'Đồ điện tử nhỏ', 'DH0000012'),
+(4.5, 48.0, 38.0, 28.0, 1, 1, 125000.0, 'kih13.jpg', 'Đồ gia dụng lớn', 'DH0000013'),
+(1.3, 27.0, 17.0, 12.0, 0, 0, 85000.0, 'kih14.jpg', 'Quần áo trẻ em', 'DH0000014'),
+(5.5, 52.0, 42.0, 32.0, 1, 1, 175000.0, 'kih15.jpg', 'Đồ thể thao lớn', 'DH0000015'),
+(3.2, 36.0, 26.0, 20.0, 0, 1, 145000.0, 'kih16.jpg', 'Đồ nội thất vừa', 'DH0000016'),
+(2.1, 33.0, 23.0, 17.0, 1, 1, 105000.0, 'kih17.jpg', 'Đồ dùng cá nhân', 'DH0000017'),
+(2.4, 30.5, 20.5, 15.5, 0, 1, 115000.0, 'kih18.jpg', 'Đồ điện tử phụ kiện', 'DH0000018'),
+(4.2, 46.0, 36.0, 26.0, 1, 1, 135000.0, 'kih19.jpg', 'Đồ gia dụng cao cấp', 'DH0000019'),
+(1.1, 25.5, 15.5, 10.5, 0, 0, 75000.0, 'kih20.jpg', 'Phụ kiện điện thoại', 'DH0000020');
