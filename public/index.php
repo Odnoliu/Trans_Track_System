@@ -80,3 +80,19 @@
 
 </body>
 </html>
+<?php
+require __DIR__ . '/config/connect_databases.php';
+require __DIR__ . '/controller/auth_controller.php';
+
+$authController = new AuthController($pdo);
+
+if ($_SERVER['REQUEST_URI'] === '/login' || $_SERVER['REQUEST_URI'] === '/') {
+    $error = $authController->login();
+    if ($error) {
+        require __DIR__ . '/auth/login.php';
+    }
+} else {
+    // Xử lý các route khác (admin, user, v.v.) - cần mở rộng
+    echo "Route không hợp lệ!";
+}
+?>
