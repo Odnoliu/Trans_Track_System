@@ -13,7 +13,7 @@ $role = $_SESSION['role'];
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<nav class="bg-blue-500 p-4 shadow-lg">
+<nav class="bg-blue-500 p-4 shadow-lg w-full">
     <ul class="flex space-x-6 text-white font-medium">
         <?php if ($role === 'VT001'): // Admin ?>
             <li><a href="/admin/admin.php" class="hover:text-yellow-300">Dashboard Admin</a></li>
@@ -22,7 +22,6 @@ $role = $_SESSION['role'];
 
         <?php elseif ($role === 'VT003'): // Customer ?>
             <li><a href="/customer/customer.php" class="hover:text-green-300">Trang chủ khách hàng</a></li>
-            <li><a href="/customer/track_shipment.php" class="hover:text-green-300">Theo dõi vận đơn</a></li>
             <li><a href="/customer/order_history.php" class="hover:text-green-300">Lịch sử đơn hàng</a></li>
 
         <?php elseif ($role === 'VT004'): // Provider ?>
