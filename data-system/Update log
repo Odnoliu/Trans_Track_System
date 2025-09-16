@@ -8,3 +8,7 @@ SQL: (PPhuc)
     - Chỉnh sửa thống nhất mã phường là PH_ID
     - Loại bỏ "AUTO_INCREMENT" của cột PH_ID (khóa ngoại) trong bảng diachi
     - Thêm "DC_ToaDo" vào dòng insert diachi
+
+16-9-2025 22:42
+SQL: (PPhuc)
+    - Sửa thông tin trong bảng khách hàng thành số đt thật và email thật để test tính năng OTP

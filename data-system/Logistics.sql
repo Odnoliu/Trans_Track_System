@@ -72,7 +72,7 @@ INSERT INTO khachhang (KH_Ten, KH_SDT, KH_Email, TK_ID) VALUES
 ('Phạm Văn E', '0911123115', 'vane@gmail.com', 9),
 ('Hoàng Thị F', '0911123116', 'thif@gmail.com', 10),
 ('Đỗ Văn G', '0911123117', 'vang@gmail.com', 11),
-('Ngô Thị H', '0911123118', 'thih@gmail.com', 12);
+('Cao Hồng Phúc', '0372807439', 'phucc0386@gmail.com', 12);
 
 CREATE TABLE phuong (
     PH_ID INT AUTO_INCREMENT PRIMARY KEY,
