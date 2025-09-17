@@ -24,7 +24,7 @@ class AuthController {
 
             try {
                 $stmt = $this->pdo->prepare("
-                    SELECT TK_ID, TK_MatKhau, VT_Ma 
+                    SELECT TK_ID, TK_MatKhau, VT_Ma, TK_TenDangNhap
                     FROM taikhoan 
                     WHERE TK_TenDangNhap = ?
                 ");

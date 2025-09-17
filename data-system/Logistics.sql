@@ -65,7 +65,7 @@ CREATE TABLE khachhang (
 )ENGINE=InnoDB;
 
 INSERT INTO khachhang (KH_Ten, KH_SDT, KH_Email, TK_ID) VALUES
-('Nguyễn Văn A', '0911123111', 'vana@gmail.com', 5),
+('Nguyễn Hoàng Phúc', '0949445708', 'yasuohasagi369@gmail.com', 5),
 ('Trần Thị B', '0911123112', 'thib@gmail.com', 6),
 ('Võ Văn C', '0911123113', 'vanc@gmail.com', 7),
 ('Lê Thị D', '0911123114', 'thid@gmail.com', 8),
