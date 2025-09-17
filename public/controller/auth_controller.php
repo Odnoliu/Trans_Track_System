@@ -110,47 +110,40 @@ class AuthController {
             error_log("Email OTP failed: " . $mail->ErrorInfo);
         }
     }
-
+    // Y666X1YBDGH9QM3S3X4297WU (KHÔNG ĐƯỢC XÓA NHÉ)
     private function sendSMSOTP($phone, $otp) {
-        $apiKey = 'QOZysqzi9Ozax3lyYqT1k6tzHuv4H9k3';
-        $message = "Mã OTP của bạn là: $otp. Hết hạn sau 5 phút.";
-        $url = "https://api.speedsms.vn/index.php/sms/send";
+    $apiKey = 'QOZysqzi9Ozax3lyYqT1k6tzHuv4H9k3';  // Lấy từ dashboard SpeedSMS
+    $message = "Mã OTP của bạn là: $otp. Hết hạn sau 5 phút.";
+    $url = "https://api.speedsms.vn/index.php/sms/send";
 
-        // Làm sạch số điện thoại
-        $phone = preg_replace('/\s+/', '', $phone);  // Loại bỏ khoảng trắng
-        if (strpos($phone, '+84') !== 0 && strlen($phone) >= 10) {
-            $phone = '+84' . ltrim($phone, '0');  // Chuyển 0372807xxx thành +84372807xxx
-        }
+    $data = array(
+        'to' => $phone,  // +84372807xxx hoặc 84372807xxx
+        'content' => $message,
+        'api_key' => $apiKey
+    );
 
-        $data = array(
-            'to' => $phone,
-            'content' => $message,
-            'api_key' => $apiKey
-        );
+    $options = array(
+        'http' => array(
+            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method'  => 'POST',
+            'content' => http_build_query($data)
+        )
+    );
 
-        $options = array(
-            'http' => array(
-                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method'  => 'POST',
-                'content' => http_build_query($data)
-            )
-        );
+    $context = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
 
-        $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-
-        if ($result === false) {
-            error_log("SpeedSMS OTP failed: Kết nối thất bại");
-            var_dump($http_response_header);  // Debug mã HTTP (401)
+    if ($result === false) {
+        error_log("SpeedSMS OTP failed: Kết nối thất bại");
+    } else {
+        $response = json_decode($result, true);
+        if (isset($response['code']) && $response['code'] !== 200) {  // 200 là thành công
+            error_log("SpeedSMS OTP failed: " . ($response['message'] ?? 'Unknown error'));
         } else {
-            $response = json_decode($result, true);
-            if (isset($response['code']) && $response['code'] !== 200) {  // SpeedSMS dùng code thay success
-                error_log("SpeedSMS OTP failed: " . ($response['message'] ?? 'Unknown error'));
-            } else {
-                error_log("SpeedSMS OTP sent successfully");
-            }
+            error_log("SpeedSMS OTP sent successfully");
         }
     }
+}
 
     public function verifyOTP() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'verify_otp') {
