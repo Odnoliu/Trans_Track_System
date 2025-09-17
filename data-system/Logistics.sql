@@ -71,7 +71,7 @@ INSERT INTO khachhang (KH_Ten, KH_SDT, KH_Email, TK_ID) VALUES
 ('Lê Thị D', '0911123114', 'thid@gmail.com', 8),
 ('Phạm Văn E', '0911123115', 'vane@gmail.com', 9),
 ('Hoàng Thị F', '0911123116', 'thif@gmail.com', 10),
-('Đỗ Văn G', '0911123117', 'vang@gmail.com', 11),
+('Đỗ Văn G', '0358064203', 'buiphuocthuan.it@gmail.com', 11),
 ('Cao Hồng Phúc', '0372807439', 'phucc0386@gmail.com', 12);
 
 CREATE TABLE phuong (

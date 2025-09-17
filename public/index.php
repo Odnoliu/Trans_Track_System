@@ -5,7 +5,7 @@
     require __DIR__ . '/controller/auth_controller.php'; 
 
     $authController = new AuthController($pdo);
-
+    
     // Debug URI (bỏ comment để debug, xóa sau khi test)
     // echo "REQUEST_URI: " . $_SERVER['REQUEST_URI'] . "<br>";
 

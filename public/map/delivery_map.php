@@ -1,34 +1,35 @@
 <?php
 // Demo dữ liệu toạ độ (tất cả nằm trong khu vực TP Cần Thơ)
 $orders = [
-    1 => [105.780500, 10.032000],
-    2 => [105.789000, 10.040500],
-    3 => [105.800200, 10.025600],
-    4 => [105.760700, 10.045300],
-    5 => [105.770900, 10.015800],
+  1 => [105.770900, 10.015800],
+  2 => [105.789000, 10.040500],
+  3 => [105.800200, 10.025600],
+  4 => [105.751898, 10.031262],
+  5 => [105.770900, 10.015800],
 ];
 
 // 7 điểm mặc định trong Cần Thơ (5 Smart Locker, 2 Kho)
 $points = [
-    // Smart Lockers
-    ['id' => 'locker-1', 'type' => 'locker', 'name' => 'Smart Locker 1', 'coords' => [105.7830, 10.0300], 'icon' => '../../images/smart_locker_point/locker.png'],
-    ['id' => 'locker-2', 'type' => 'locker', 'name' => 'Smart Locker 2', 'coords' => [105.7920, 10.0380], 'icon' => '../../images/smart_locker_point/locker.png'],
-    ['id' => 'locker-3', 'type' => 'locker', 'name' => 'Smart Locker 3', 'coords' => [105.7750, 10.0420], 'icon' => '../../images/smart_locker_point/locker.png'],
-    ['id' => 'locker-4', 'type' => 'locker', 'name' => 'Smart Locker 4', 'coords' => [105.7685, 10.0295], 'icon' => '../../images/smart_locker_point/locker.png'],
-    ['id' => 'locker-5', 'type' => 'locker', 'name' => 'Smart Locker 5', 'coords' => [105.7855, 10.0205], 'icon' => '../../images/smart_locker_point/locker.png'],
-    // Warehouses
-    ['id' => 'warehouse-1', 'type' => 'warehouse', 'name' => 'Kho 1', 'coords' => [105.780000, 10.030000], 'icon' => '../../images/default_point/warehouse.png'],
-    ['id' => 'warehouse-2', 'type' => 'warehouse', 'name' => 'Kho 2', 'coords' => [105.756031, 10.034307], 'icon' => '../../images/default_point/warehouse.png'],
+  // Smart Lockers
+  ['id' => 'locker-1', 'type' => 'locker', 'name' => 'Smart Locker 1', 'coords' => [105.728500, 10.008445], 'icon' => '../../images/smart_locker_point/locker.png'],
+  ['id' => 'locker-2', 'type' => 'locker', 'name' => 'Smart Locker 2', 'coords' => [105.779914, 10.056845], 'icon' => '../../images/smart_locker_point/locker.png'],
+  ['id' => 'locker-3', 'type' => 'locker', 'name' => 'Smart Locker 3', 'coords' => [105.742718, 10.045906], 'icon' => '../../images/smart_locker_point/locker.png'],
+  ['id' => 'locker-4', 'type' => 'locker', 'name' => 'Smart Locker 4', 'coords' => [105.751898, 10.031262], 'icon' => '../../images/smart_locker_point/locker.png'],
+  ['id' => 'locker-5', 'type' => 'locker', 'name' => 'Smart Locker 5', 'coords' => [105.764497, 10.022104], 'icon' => '../../images/smart_locker_point/locker.png'],
+  // Warehouses
+  ['id' => 'warehouse-1', 'type' => 'warehouse', 'name' => 'Kho 1', 'coords' => [105.750637, 10.052864], 'icon' => '../../images/default_point/warehouse.png'],
+  ['id' => 'warehouse-2', 'type' => 'warehouse', 'name' => 'Kho 2', 'coords' => [105.783084, 10.013510], 'icon' => '../../images/default_point/warehouse.png'],
 ];
 
 // Mặc định shipper ở kho 1
-$default_shipper = [105.780142,10.029895]; // warehouse-1
+$default_shipper = [105.780142, 10.029895]; // warehouse-1
 
 $order_id = (int)($_GET['order_id'] ?? 1);
 $destination = $orders[$order_id] ?? $orders[1];
 ?>
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <title>LogiX - Bản đồ (Cần Thơ Demo)</title>
@@ -37,7 +38,7 @@ $destination = $orders[$order_id] ?? $orders[1];
   <!-- Mapbox -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css" rel="stylesheet">
   <script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <!-- Turf.js -->
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 
@@ -45,21 +46,46 @@ $destination = $orders[$order_id] ?? $orders[1];
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
   <style>
-    #map { width:100%; height:100vh; }
-    .marker-svg { width: 36px; height: 36px; background-size: contain; background-repeat: no-repeat; }
-    .marker-shipper { width: 48px; height: 48px; background-size: contain; }
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+
+    .marker-svg {
+      width: 36px;
+      height: 36px;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    .marker-shipper {
+      width: 48px;
+      height: 48px;
+      background-size: contain;
+    }
+
     .pulse {
-      box-shadow: 0 0 0 rgba(220,38,38,0.7);
+      box-shadow: 0 0 0 rgba(220, 38, 38, 0.7);
       animation: pulse-ring 1.8s infinite ease-out;
       border-radius: 50%;
     }
+
     @keyframes pulse-ring {
-      0% { box-shadow: 0 0 0 0 rgba(220,38,38,0.7); }
-      70% { box-shadow: 0 0 0 12px rgba(220,38,38,0); }
-      100% { box-shadow: 0 0 0 0 rgba(220,38,38,0); }
+      0% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+      }
+
+      70% {
+        box-shadow: 0 0 0 12px rgba(220, 38, 38, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+      }
     }
   </style>
 </head>
+
 <body>
   <div id="map"></div>
 
@@ -84,9 +110,31 @@ $destination = $orders[$order_id] ?? $orders[1];
       const el = document.createElement("div");
       el.className = "marker-svg";
       el.style.backgroundImage = `url('${pt.icon}')`;
+
+      // Nội dung popup
+      let popupContent = `
+    <div class="relative p-2 max-w-xs text-center">
+      <h3 class="text-lg font-bold text-blue-600 mb-2 transition duration-300 ease-in-out hover:text-red-500 hover:scale-105 inline-block cursor-pointer">
+        ${pt.name}
+      </h3>
+  `;
+
+
+      // Nếu là Smart Locker thì thêm ảnh
+      if (pt.type == "locker") {
+        popupContent += `
+      <img src="../../images/full_smart_locker.jpg" alt="${pt.name}" 
+           class="rounded-xl shadow-md object-cover transition duration-300 hover:scale-105" />
+    `;
+      }
+
+      popupContent += `</div>`;
       new mapboxgl.Marker(el)
         .setLngLat(pt.coords)
-        .setPopup(new mapboxgl.Popup().setHTML(`<b>${pt.name}</b>`))
+        .setPopup(new mapboxgl.Popup({
+          offset: 25,
+          closeButton: false
+        }).setHTML(popupContent))
         .addTo(map);
     });
     const destinationel = document.createElement("div");
@@ -95,7 +143,7 @@ $destination = $orders[$order_id] ?? $orders[1];
     new mapboxgl.Marker(destinationel)
       .setLngLat(<?php echo json_encode($destination); ?>)
       .setPopup(new mapboxgl.Popup().setHTML("<b>Điểm đến của đơn hàng #<?php echo $order_id; ?></b>"))
-      .addTo(map);
+    .addTo(map);
     // Marker shipper (ở Kho 1)
     const shipperEl = document.createElement("div");
     shipperEl.className = "marker-shipper";
@@ -130,50 +178,63 @@ $destination = $orders[$order_id] ?? $orders[1];
         "id": "route",
         "type": "line",
         "source": "route",
-        "layout": { "line-join": "round", "line-cap": "round" },
-        "paint": { "line-color": "#3b82f6", "line-width": 5 }
+        "layout": {
+          "line-join": "round",
+          "line-cap": "round"
+        },
+        "paint": {
+          "line-color": "#3b82f6",
+          "line-width": 5
+        }
       });
 
       // Check route với alerts
-      await fetch("../../data/alerts.json")
-        .then(res => res.json())
-        .then(alerts => {
-          alerts.forEach(alert => {
-            // Marker cảnh báo
-            const alertEl = document.createElement("div");
-            alertEl.className = "marker-svg pulse animate__animated animate__bounce";
-            alertEl.style.backgroundImage = `url('../../images/${alert.type}.png')`;
+      //   await fetch("../../data/alerts.json")
+      //     .then(res => res.json())
+      //     .then(alerts => {
+      //       alerts.forEach(alert => {
+      //         // Marker cảnh báo
+      //         const alertEl = document.createElement("div");
+      //         alertEl.className = "marker-svg pulse animate__animated animate__bounce";
+      //         alertEl.style.backgroundImage = `url('../../images/${alert.type}.png')`;
 
-            new mapboxgl.Marker(alertEl)
-              .setLngLat([alert.lng, alert.lat])
-              .setPopup(new mapboxgl.Popup().setHTML(`<b>${alert.title}</b><br>${alert.description}`))
-              .addTo(map);
+      //         new mapboxgl.Marker(alertEl)
+      //           .setLngLat([alert.lng, alert.lat])
+      //           .setPopup(new mapboxgl.Popup().setHTML(`<b>${alert.title}</b><br>${alert.description}`))
+      //           .addTo(map);
 
-            // Nếu route đi qua cảnh báo -> highlight đoạn đường
-            const point = turf.point([alert.lng, alert.lat]);
-            const line = turf.lineString(route.coordinates);
-            const dist = turf.pointToLineDistance(point, line, { units: "kilometers" });
+      //         // Nếu route đi qua cảnh báo -> highlight đoạn đường
+      //         const point = turf.point([alert.lng, alert.lat]);
+      //         const line = turf.lineString(route.coordinates);
+      //         const dist = turf.pointToLineDistance(point, line, { units: "kilometers" });
 
-            if (dist < 0.3) { // khoảng cách nhỏ hơn 300m coi như ảnh hưởng
-              map.addLayer({
-                "id": "route-alert-" + alert.id,
-                "type": "line",
-                "source": {
-                  "type": "geojson",
-                  "data": {
-                    "type": "Feature",
-                    "geometry": route
-                  }
-                },
-                "layout": { "line-join": "round", "line-cap": "round" },
-                "paint": { "line-color": "#dc2626", "line-width": 6, "line-dasharray": [2,2] }
-              });
-            }
-          });
-        });
+      //         if (dist < 0.3) { // khoảng cách nhỏ hơn 300m coi như ảnh hưởng
+      //           map.addLayer({
+      //             "id": "route-alert-" + alert.id,
+      //             "type": "line",
+      //             "source": {
+      //               "type": "geojson",
+      //               "data": {
+      //                 "type": "Feature",
+      //                 "geometry": route
+      //               }
+      //             },
+      //             "layout": { "line-join": "round", "line-cap": "round" },
+      //             "paint": { "line-color": "#dc2626", "line-width": 6, "line-dasharray": [2,2] }
+      //           });
+      //         }
+      //       });
+      //     });
     }
 
     getRoute(start, end);
   </script>
 </body>
+
 </html>
+<style>
+  img {
+    width: 200px;
+    height: auto;
+  }
+</style>
