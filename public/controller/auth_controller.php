@@ -1,7 +1,8 @@
 <?php
 session_start();
 require '../vendor/autoload.php';  // Sử dụng autoload từ Composer
-
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -34,7 +35,7 @@ class AuthController {
                 if ($user && ($password == $user['TK_MatKhau'])) {  // Sửa so sánh mật khẩu
                     $_SESSION['username'] = $user['TK_TenDangNhap'];
                     $_SESSION['role'] = $user['VT_Ma'];
-
+                    $_SESSION['user_id'] = $user['TK_ID'];
                     // Chỉ áp dụng OTP cho vai trò khách hàng (VT003)
                     if ($user['VT_Ma'] === 'VT003') {
                         $stmtCustomer = $this->pdo->prepare("
@@ -86,7 +87,14 @@ class AuthController {
         }
         return null;
     }
-
+    public function logout(){
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        session_destroy();
+        header("Location: /auth/login.php");
+        exit;
+    }
     private function sendEmailOTP($email, $otp) {
         $mail = new PHPMailer(true);
         try {
@@ -102,7 +110,7 @@ class AuthController {
             $mail->addAddress($email);
 
             $mail->isHTML(true);
-            $mail->Subject = 'Mã OTP Xác Thực Đăng Nhập';
+            $mail->Subject = 'LogiX - OTP';
             $mail->Body = "Mã OTP của bạn là: <b>$otp</b>. Mã này hết hạn sau 5 phút.";
 
             $mail->send();
@@ -110,40 +118,31 @@ class AuthController {
             error_log("Email OTP failed: " . $mail->ErrorInfo);
         }
     }
+
     // Y666X1YBDGH9QM3S3X4297WU (KHÔNG ĐƯỢC XÓA NHÉ)
-    private function sendSMSOTP($phone, $otp) {
-    $apiKey = 'QOZysqzi9Ozax3lyYqT1k6tzHuv4H9k3';  // Lấy từ dashboard SpeedSMS
-    $message = "Mã OTP của bạn là: $otp. Hết hạn sau 5 phút.";
-    $url = "https://api.speedsms.vn/index.php/sms/send";
-
-    $data = array(
-        'to' => $phone,  // +84372807xxx hoặc 84372807xxx
-        'content' => $message,
-        'api_key' => $apiKey
-    );
-
-    $options = array(
-        'http' => array(
-            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-            'method'  => 'POST',
-            'content' => http_build_query($data)
-        )
-    );
-
-    $context = stream_context_create($options);
-    $result = file_get_contents($url, false, $context);
-
-    if ($result === false) {
-        error_log("SpeedSMS OTP failed: Kết nối thất bại");
-    } else {
-        $response = json_decode($result, true);
-        if (isset($response['code']) && $response['code'] !== 200) {  // 200 là thành công
-            error_log("SpeedSMS OTP failed: " . ($response['message'] ?? 'Unknown error'));
-        } else {
-            error_log("SpeedSMS OTP sent successfully");
+    public function sendSMSOTP(string $phone, int $otp): bool|string
+    {
+        $client = new Client();
+        try {
+            $response = $client->post('http://192.168.1.23:8082/', [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'ef2670e1-7f4b-4441-8992-4863d3f5855d'
+                ],
+                'json' => [
+                    'to' => '+84' . ltrim($phone, '0'),
+                    'message' => 'Ma OTP cua ban la: ' . (string)$otp . '. Ma nay het han sau 5 phut.'
+                ]
+            ]);
+            return $response->getBody()->getContents();
+        } catch (\Exception $e) {
+            error_log("SMS OTP Error: " . $e->getMessage());
+            if ($e instanceof \GuzzleHttp\Exception\RequestException && $e->hasResponse()) {
+                error_log("Response: " . $e->getResponse()->getBody()->getContents());
+            }
+            return false;
         }
     }
-}
 
     public function verifyOTP() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'verify_otp') {

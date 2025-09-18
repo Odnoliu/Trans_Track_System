@@ -17,7 +17,7 @@
         
         <h2 class="text-3xl font-bold text-blue-800 mb-2">Xác thực OTP</h2>
         <p class="text-gray-600 mb-8 text-center">
-            Một mã xác thực đã được gửi đến email của bạn. Vui lòng kiểm tra hộp thư và nhập mã vào ô bên dưới.
+            Một mã xác thực đã được gửi đến email và số điện thoại của bạn. Vui lòng kiểm tra hộp thư và nhập mã vào ô bên dưới.
         </p>
         
         <form method="POST" action="/index.php" class="w-full max-w-sm">

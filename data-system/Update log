@@ -16,3 +16,7 @@ SQL: (PPhuc)
 17-09-2025 14:45
 SQL: (Proken Heart)
     - Sửa thông tin trong bảng khách hàng thành số đt thật và email thật để dùng tính năng OTP
+18-09-2025 14:45
+SQL: (PThuan)
+    - Chạy câu lệnh cài đặt thêm thư viện trước khi chạy dự án mới:
+        composer require guzzlehttp/guzzle

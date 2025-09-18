@@ -11,14 +11,14 @@ $orders = [
 // 7 điểm mặc định trong Cần Thơ (5 Smart Locker, 2 Kho)
 $points = [
   // Smart Lockers
-  ['id' => 'locker-1', 'type' => 'locker', 'name' => 'Smart Locker 1', 'coords' => [105.728500, 10.008445], 'icon' => '../../images/smart_locker_point/locker.png'],
-  ['id' => 'locker-2', 'type' => 'locker', 'name' => 'Smart Locker 2', 'coords' => [105.779914, 10.056845], 'icon' => '../../images/smart_locker_point/locker.png'],
-  ['id' => 'locker-3', 'type' => 'locker', 'name' => 'Smart Locker 3', 'coords' => [105.742718, 10.045906], 'icon' => '../../images/smart_locker_point/locker.png'],
-  ['id' => 'locker-4', 'type' => 'locker', 'name' => 'Smart Locker 4', 'coords' => [105.751898, 10.031262], 'icon' => '../../images/smart_locker_point/locker.png'],
-  ['id' => 'locker-5', 'type' => 'locker', 'name' => 'Smart Locker 5', 'coords' => [105.764497, 10.022104], 'icon' => '../../images/smart_locker_point/locker.png'],
+  ['id' => 'locker-1', 'type' => 'locker', 'name' => 'Smart Locker GO! Cần Thơ', 'coords' => [105.783924, 10.013610], 'icon' => '../../images/smart_locker_point/locker.png'],
+  ['id' => 'locker-2', 'type' => 'locker', 'name' => 'Smart Locker Đại học Cần Thơ', 'coords' => [105.770782, 10.029144], 'icon' => '../../images/smart_locker_point/locker.png'],
+  ['id' => 'locker-3', 'type' => 'locker', 'name' => 'Smart Locker Sense City Cần Thơ', 'coords' => [ 105.785598, 10.034457], 'icon' => '../../images/smart_locker_point/locker.png'],
+  ['id' => 'locker-4', 'type' => 'locker', 'name' => 'Smart Locker Mega Market', 'coords' => [105.761449, 10.023039], 'icon' => '../../images/smart_locker_point/locker.png'],
+  ['id' => 'locker-5', 'type' => 'locker', 'name' => 'Smart Locker Coop Mart', 'coords' => [105.770930, 10.054364], 'icon' => '../../images/smart_locker_point/locker.png'],
   // Warehouses
-  ['id' => 'warehouse-1', 'type' => 'warehouse', 'name' => 'Kho 1', 'coords' => [105.750637, 10.052864], 'icon' => '../../images/default_point/warehouse.png'],
-  ['id' => 'warehouse-2', 'type' => 'warehouse', 'name' => 'Kho 2', 'coords' => [105.783084, 10.013510], 'icon' => '../../images/default_point/warehouse.png'],
+  // ['id' => 'warehouse-1', 'type' => 'warehouse', 'name' => 'Hub Vệ tinh', 'coords' => [105.750637, 10.052864], 'icon' => '../../images/default_point/warehouse.png'],
+  // ['id' => 'warehouse-2', 'type' => 'warehouse', 'name' => 'Hub Chính', 'coords' => [105.783084, 10.013510], 'icon' => '../../images/default_point/warehouse.png'],
 ];
 
 // Mặc định shipper ở kho 1
@@ -138,55 +138,55 @@ $destination = $orders[$order_id] ?? $orders[1];
         .addTo(map);
     });
     const destinationel = document.createElement("div");
-    destinationel.className = "marker-svg";
-    destinationel.style.backgroundImage = "url('../../images/destination.png')";
-    new mapboxgl.Marker(destinationel)
-      .setLngLat(<?php echo json_encode($destination); ?>)
-      .setPopup(new mapboxgl.Popup().setHTML("<b>Điểm đến của đơn hàng #<?php echo $order_id; ?></b>"))
-    .addTo(map);
+    // destinationel.className = "marker-svg";
+    // destinationel.style.backgroundImage = "url('../../images/destination.png')";
+    // new mapboxgl.Marker(destinationel)
+    //   .setLngLat(<?php echo json_encode($destination); ?>)
+    //   .setPopup(new mapboxgl.Popup().setHTML("<b>Điểm đến của đơn hàng #<?php echo $order_id; ?></b>"))
+    // .addTo(map);
     // Marker shipper (ở Kho 1)
-    const shipperEl = document.createElement("div");
-    shipperEl.className = "marker-shipper";
-    shipperEl.style.backgroundImage = "url('../../images/shipper.png')";
-    new mapboxgl.Marker(shipperEl)
-      .setLngLat(<?php echo json_encode($default_shipper); ?>)
-      .setPopup(new mapboxgl.Popup().setHTML("<b>Shipper xuất phát từ Kho 1</b>"))
-      .addTo(map);
-    console.log(<?php echo json_encode($default_shipper); ?>);
+    // const shipperEl = document.createElement("div");
+    // shipperEl.className = "marker-shipper";
+    // shipperEl.style.backgroundImage = "url('../../images/shipper.png')";
+    // new mapboxgl.Marker(shipperEl)
+    //   .setLngLat(<?php echo json_encode($default_shipper); ?>)
+    //   .setPopup(new mapboxgl.Popup().setHTML("<b>Shipper xuất phát từ Kho 1</b>"))
+    //   .addTo(map);
+    // console.log(<?php echo json_encode($default_shipper); ?>);
     // Vẽ tuyến đường shipper -> order
-    const start = <?php echo json_encode($default_shipper); ?>;
-    const end = <?php echo json_encode($destination); ?>;
+    // const start = <?php echo json_encode($default_shipper); ?>;
+    // const end = <?php echo json_encode($destination); ?>;
 
-    async function getRoute(start, end) {
-      const query = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${mapboxgl.accessToken}`
-      );
-      const json = await query.json();
-      const data = json.routes[0];
-      const route = data.geometry;
+    // async function getRoute(start, end) {
+    //   const query = await fetch(
+    //     `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${mapboxgl.accessToken}`
+    //   );
+    //   const json = await query.json();
+    //   const data = json.routes[0];
+    //   const route = data.geometry;
 
-      // Thêm route chính
-      map.addSource("route", {
-        "type": "geojson",
-        "data": {
-          "type": "Feature",
-          "geometry": route
-        }
-      });
+    //   // Thêm route chính
+    //   map.addSource("route", {
+    //     "type": "geojson",
+    //     "data": {
+    //       "type": "Feature",
+    //       "geometry": route
+    //     }
+    //   });
 
-      map.addLayer({
-        "id": "route",
-        "type": "line",
-        "source": "route",
-        "layout": {
-          "line-join": "round",
-          "line-cap": "round"
-        },
-        "paint": {
-          "line-color": "#3b82f6",
-          "line-width": 5
-        }
-      });
+    //   map.addLayer({
+    //     "id": "route",
+    //     "type": "line",
+    //     "source": "route",
+    //     "layout": {
+    //       "line-join": "round",
+    //       "line-cap": "round"
+    //     },
+    //     "paint": {
+    //       "line-color": "#3b82f6",
+    //       "line-width": 5
+    //     }
+    //   });
 
       // Check route với alerts
       //   await fetch("../../data/alerts.json")
@@ -225,9 +225,9 @@ $destination = $orders[$order_id] ?? $orders[1];
       //         }
       //       });
       //     });
-    }
+    // }
 
-    getRoute(start, end);
+    // getRoute(start, end);
   </script>
 </body>
 
