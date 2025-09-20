@@ -4,6 +4,17 @@ include("../navbar.php");
 // Kết nối database
 require_once("../config/connect_databases.php");
 
+// Nếu người dùng bấm nút "Đã nhận hàng"
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['dh_ma'])) {
+    try {
+        $update = $pdo->prepare("UPDATE donhang SET TT_Ma = 'TT004' WHERE DH_Ma = ?");
+        $update->execute([$_POST['dh_ma']]);
+    } catch (Exception $e) {
+        die("Lỗi cập nhật DB: " . $e->getMessage());
+    }
+}
+
+// Lấy danh sách đơn hàng trạng thái TT003
 try {
     $stmt = $pdo->prepare("
         SELECT 
@@ -26,7 +37,7 @@ try {
         JOIN khachhang kh ON dh.KH_ID = kh.KH_ID
         JOIN taikhoan tk ON kh.TK_ID = tk.TK_ID
         LEFT JOIN diachi dc ON dc.KH_ID = kh.KH_ID
-        WHERE tk.TK_TenDangNhap = ? AND dh.TT_Ma = 'TT004'
+        WHERE tk.TK_TenDangNhap = ? AND dh.TT_Ma = 'TT003'
         ORDER BY dh.DH_Ma ASC
     ");
     $stmt->execute([$_SESSION['username']]);
@@ -35,7 +46,7 @@ try {
     die("Lỗi truy vấn DB: " . $e->getMessage());
 }
 
-// Tạo ngày nhận hàng giả lập (random trong 7 ngày gần đây)
+// Tạo ngày nhận hàng giả lập
 function fakeReceiveDate()
 {
     $daysAgo = rand(0, 7);
@@ -64,7 +75,6 @@ function fakeReceiveDate()
 
         .animate-fadeInUp {
             opacity: 0;
-            /* ban đầu ẩn */
             animation: fadeInUp .5s ease forwards;
         }
     </style>
@@ -72,10 +82,10 @@ function fakeReceiveDate()
 
 <body class="bg-gray-50 min-h-screen py-10">
     <div class="max-w-6xl mx-auto px-4">
-        <h1 class="text-3xl font-bold text-green-700 mb-6">Danh sách đơn hàng đã nhận</h1>
+        <h1 class="text-3xl font-bold text-green-700 mb-6">Danh sách đơn hàng đang chờ xác nhận nhận hàng</h1>
 
         <?php if (empty($orders)): ?>
-            <p class="text-gray-600">Hiện không có đơn hàng nào đã nhận.</p>
+            <p class="text-gray-600">Hiện không có đơn hàng nào cần xác nhận.</p>
         <?php else: ?>
             <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <?php foreach ($orders as $index => $order): ?>
@@ -88,14 +98,21 @@ function fakeReceiveDate()
                         <p class="text-sm text-gray-600">
                             Tổng tiền: <?= number_format($order['DH_TongTien'], 0, ',', '.') ?> đ
                         </p>
-                        <p class="text-sm font-medium text-green-700">Trạng thái: Đã Nhận Hàng</p>
                         <p class="text-sm text-gray-700 mt-2">
-                            Ngày nhận hàng: <span class="font-semibold"><?= fakeReceiveDate() ?></span>
+                            Ngày giao dự kiến: <span class="font-semibold"><?= fakeReceiveDate() ?></span>
                         </p>
+
+                        <!-- Form nút Đã nhận hàng -->
+                        <form method="POST" class="mt-4">
+                            <input type="hidden" name="dh_ma" value="<?= htmlspecialchars($order['DH_Ma']) ?>">
+                            <button type="submit"
+                                class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition">
+                                ✅ Đã nhận hàng
+                            </button>
+                        </form>
                     </article>
                 <?php endforeach; ?>
             </div>
-
         <?php endif; ?>
     </div>
 </body>

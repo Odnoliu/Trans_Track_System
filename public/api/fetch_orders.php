@@ -6,7 +6,7 @@ require_once("../controller/orders_controller.php");
 
 try {
     $orderController = new OrderController($pdo);
-    $orders = $orderController->getAllOrdersByUser();
+    $orders = $orderController->getAllOrders();
 
     echo json_encode([
         "status" => "success",

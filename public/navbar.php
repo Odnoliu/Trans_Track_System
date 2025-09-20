@@ -43,26 +43,30 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <nav class="bg-blue-600 p-4 shadow-md w-full flex items-center justify-between">
+    <!-- Logo -->
+    <div class="flex items-center space-x-3">
+        <img src="/images/logo.jpg" alt="Logo" class="w-12 h-12 rounded-full border-2 border-white shadow-md">
+        <span class="text-white text-2xl font-bold">LogiX</span>
+    </div>
+
     <!-- Menu -->
     <ul class="flex space-x-6 text-white font-medium">
-        <?php if ($role === 'VT001'): // Admin ?>
-            <li><a href="/admin/admin.php" class="hover:text-yellow-300">Dashboard Admin</a></li>
-            <li><a href="/admin/manage_accounts.php" class="hover:text-yellow-300">Quản lý tài khoản</a></li>
-            <li><a href="/admin/manage_orders.php" class="hover:text-yellow-300">Quản lý đơn hàng</a></li>
+        <?php if ($role == 'VT001'): // Admin ?>
+            <li><a href="/admin/admin.php" class="hover:text-yellow-300">Thống kê đơn hàng</a></li>
+            <li><a href="/admin/manage_accounts.php" class="hover:text-yellow-300">Thống kê doanh thu</a></li>
+            <li><a href="/admin/manage_order.php" class="hover:text-yellow-300">Thống kê trả hàng</a></li>
+        <?php elseif ($role == 'VT003'): // Customer ?>
+            <li><a href="/customer/customer.php" class="hover:text-green-300">Đơn hàng của bạn</a></li>
+            <li><a href="/customer/confirm.php" class="hover:text-green-300">Xác nhận nhận hàng</a></li>
+            <li><a href="/customer/oder_history.php" class="hover:text-green-300">Lịch sử đơn hàng</a></li>
 
-        <?php elseif ($role === 'VT003'): // Customer ?>
-            <li><a href="/customer/customer.php" class="hover:text-green-300">Trang chủ khách hàng</a></li>
-            <li><a href="/customer/order_history.php" class="hover:text-green-300">Lịch sử đơn hàng</a></li>
+        <?php elseif ($role == 'VT004'): // Provider ?>
+            <li><a href="/provider/manage_shipping.php" class="hover:text-blue-300">Theo dõi đơn</a></li>
 
-        <?php elseif ($role === 'VT004'): // Provider ?>
-            <li><a href="/provider/provider.php" class="hover:text-blue-300">Trang chủ nhà cung cấp</a></li>
-            <li><a href="/provider/manage_inventory.php" class="hover:text-blue-300">Quản lý kho</a></li>
-            <li><a href="/provider/manage_shipping.php" class="hover:text-blue-300">Quản lý vận chuyển</a></li>
-
-        <?php elseif ($role === 'VT002'): // Employee ?>
-            <li><a href="/employee/employee.php" class="hover:text-purple-300">Trang chủ nhân viên</a></li>
-            <li><a href="/employee/process_orders.php" class="hover:text-purple-300">Xử lý đơn hàng</a></li>
-            <li><a href="/employee/support.php" class="hover:text-purple-300">Hỗ trợ khách hàng</a></li>
+        <?php elseif ($role == 'VT002'): // Employee ?>
+            <li><a href="/delivery_employee/employee.php" class="hover:text-purple-300">Danh sách đơn hàng</a></li>
+            <li><a href="/delivery_employee/process_orders.php" class="hover:text-purple-300">Lịch sử đã giao</a></li>
+            <li><a href="/delivery_employee/confirm_delivery.php" class="hover:text-purple-300">Xác nhận giao hàng</a></li>
         <?php endif; ?>
     </ul>
 
@@ -78,3 +82,4 @@
         <a href="/logout.php" class="text-red-300 hover:text-red-500 font-medium">Đăng xuất</a>
     </div>
 </nav>
+

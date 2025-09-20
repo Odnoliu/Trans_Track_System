@@ -68,10 +68,10 @@ class AuthController {
                                 header("Location: /admin/admin.php");
                                 exit;
                             case 'VT004':
-                                header("Location: /provider/provider.php");
+                                header("Location: /provider/manage_shipping.php");
                                 exit;
                             case 'VT002':
-                                header("Location: /employee/employee.php");
+                                header("Location: /delivery_employee/employee.php");
                                 exit;
                             default:
                                 header("Location: /auth/login.php");
@@ -124,7 +124,7 @@ class AuthController {
     {
         $client = new Client();
         try {
-            $response = $client->post('http://192.168.1.23:8082/', [
+            $response = $client->post('http://10.162.44.48:8082/', [
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'Authorization' => 'ef2670e1-7f4b-4441-8992-4863d3f5855d'
